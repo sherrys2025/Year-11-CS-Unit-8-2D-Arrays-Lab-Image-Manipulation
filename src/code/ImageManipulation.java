@@ -16,7 +16,8 @@ public class ImageManipulation {
         grayScale("cyberpunk2077.jpg");
         blackAndWhite("cyberpunk2077.jpg");
         edgeDetection("cyberpunk2077.jpg", 20);
-
+        reflectImage("cyberpunk2077.jpg");
+        rotateImage("cyberpunk2077.jpg");
     }
 
     /** CHALLENGE ONE: Grayscale
@@ -137,6 +138,20 @@ public class ImageManipulation {
      *
      */
     public static void reflectImage(String pathToFile) {
+        APImage image = new APImage(pathToFile);
+        Pixel[][] pixels = new Pixel[image.getWidth()][image.getHeight()];
+        for (int x = 0; x < image.getWidth(); x++){
+            for (int y = 0; y < image.getHeight(); y++){
+                pixels[x][y] = image.getPixel(x, y);
+            }
+        }
+        for (int x = 0; x < image.getWidth(); x++){
+            for (int y = 0; y < image.getHeight(); y++){
+                image.setPixel(x, y, pixels[image.getWidth()-x-1][y]);
+            }
+        }
+
+        image.draw();
 
     }
 
@@ -147,7 +162,23 @@ public class ImageManipulation {
      *
      *  */
     public static void rotateImage(String pathToFile) {
+        APImage image = new APImage(pathToFile);
+        Pixel[][] pixels = new Pixel[image.getWidth()][image.getHeight()];
+        for (int x = 0; x < image.getWidth(); x++){
+            for (int y = 0; y < image.getHeight(); y++){
+                pixels[x][y] = image.getPixel(x, y);
+            }
+        }
 
+        APImage image2 = new APImage(image.getHeight(), image.getWidth());
+        for (int y = 0; y < image.getWidth(); y++){
+            for (int x = 0; x < image.getHeight(); x++){
+                if (image.getHeight()-1-x < image.getWidth() && y < image.getHeight())
+                    image2.setPixel(x, y, pixels[y][image.getHeight()-1-x]);
+            }
+        }
+
+        image2.draw();
     }
 
 }
